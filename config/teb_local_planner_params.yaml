@@ -9,7 +9,7 @@ TebLocalPlannerROS:
   map_frame: /odom # Ou /map se estiver a usar SLAM
 
   # --- Cinemática do Robô (Jackal) ---
-  max_vel_x: 1      # Velocidade máxima linear (m/s)
+  max_vel_x: 1.2      # Velocidade máxima linear (m/s)
   max_vel_x_backwards: 0.5
   max_vel_theta: 1.0    # Velocidade máxima angular (rad/s)
   acc_lim_x: 1.0
