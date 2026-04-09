@@ -1,0 +1,31 @@
+<launch>
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" ns="teb">
+    
+    <param name="recovery_behavior_enabled" value="false" />
+    <param name="clearing_rotation_allowed" value="false" />
+
+    <param name="planner_patience" value="10.0" />
+    <param name="controller_patience" value="10.0" />
+    <param name="max_planning_retries" value="15" />
+
+    <rosparam file="$(find jackal_barn_navigation)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find jackal_barn_navigation)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+
+    <rosparam file="$(find jackal_barn_navigation)/config/odom_nav_params/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find jackal_barn_navigation)/config/odom_nav_params/global_costmap_params.yaml" command="load" />
+
+    <rosparam file="$(find jackal_barn_navigation)/config/move_base_params.yaml" command="load" />
+    <rosparam file="$(find jackal_barn_navigation)/config/teb_local_planner_params.yaml" command="load" />
+
+    <param name="base_global_planner" type="string" value="navfn/NavfnROS" />
+    <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+
+    <remap from="odom" to="odometry/filtered" />
+    <remap from="cmd_vel" to="cmd_vel" />
+    <remap from="front/scan" to="/front/scan" />
+   
+
+  </node>
+
+
+</launch>

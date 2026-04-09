@@ -1,0 +1,31 @@
+# 1. Tamanho do Robô (Footprint do Jackal)
+footprint: [[-0.21, -0.165], [-0.21, 0.165], [0.21, 0.165], [0.21, -0.165]]
+footprint_padding: 0.02
+
+# 2. FORÇA O COSTMAP A SER 2D (Evita que o laser suma no Gazebo)
+map_type: costmap
+
+# 3. Configuração do Laser
+obstacles_laser:
+  enabled: true
+  observation_sources: laser_scan_sensor
+  laser_scan_sensor: 
+    data_type: LaserScan
+    topic: /front/scan
+    sensor_frame: front_laser 
+    marking: true
+    clearing: true
+    obstacle_range: 5.0
+    raytrace_range: 5.5
+    inf_is_valid: true
+    # GARANTE QUE O LASER NÃO SEJA FILTRADO COMO RUÍDO NO GAZEBO
+    min_obstacle_height: -2.0
+    max_obstacle_height: 2.0
+
+# 4. Campo de Força (Agressividade para a BARN)
+inflation:
+  enabled: true
+  # Muito pequeno (30cm) para permitir passar em frestas estreitas
+  inflation_radius: 0.30 
+  # Custo cai rapidamente, o robô não tem "medo" de chegar perto da parede
+  cost_scaling_factor: 15.0

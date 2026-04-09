@@ -1,0 +1,67 @@
+#Informações :
+#Robot: 500 x 430 x 250 mm (L x W x H)
+#       max_V = 2 m/s
+#Obstaculos: r=0,5 m e V= 0.3 m/s
+#https://people.cs.gmu.edu/~xiao/papers/dynabarn.pdf
+
+TebLocalPlannerROS:
+  odom_topic: odom
+  map_frame: /odom # Ou /map se estiver a usar SLAM
+
+  # --- Cinemática do Robô (Jackal) ---
+  max_vel_x: 1.0        # Velocidade máxima linear (m/s)
+  max_vel_x_backwards: 0.4
+  max_vel_theta: 0.3    # Velocidade máxima angular (rad/s)
+  acc_lim_x: 1
+  acc_lim_theta: 0.25
+  
+  # Importante: O Jackal é "diff-drive" (diferencial)
+  min_turning_radius: 0.0 
+  footprint_model: 
+    type: "polygon"
+    # Coordenadas do chassi do Jackal (ajuste conforme necessário)
+    vertices: [[-0.25, -0.215], [-0.25, 0.215], [0.25, 0.215], [0.25, -0.215]]
+
+  # --- Tolerância de Chegada ---
+  xy_goal_tolerance: 0.2
+  yaw_goal_tolerance: 0.1
+  free_goal_vel: False
+
+  # --- Configuração de Obstáculos ---
+  min_obstacle_dist: 0.4 # Distância de segurança
+  include_costmap_obstacles: True
+  costmap_obstacles_behind_robot_dist: 1.0
+  obstacle_poses_affected: 30
+  inflation_dist: 0.4
+
+  # --- OBSTÁCULOS DINÂMICOS (Integração com o seu Python) ---
+  include_dynamic_obstacles: True
+  #  Script Python publica as ObstacleArrayMsg
+  obstacles_topic: "/dynamic_obstacles_teb" 
+  dynamic_obstacle_inflation_dist: 0.4
+
+  # --- Planeamento de Trajetória ---
+  dt_ref: 0.3 # Resolução temporal da trajetória (segundos)
+  dt_hysteresis: 0.1
+  max_samples: 500
+  global_plan_overwrite_orientation: True
+  allow_init_with_backwards_motion: True
+  max_global_plan_lookahead_dist: 3.0
+  feasibility_check_no_poses: 5
+
+  # --- Otimização ---
+  no_inner_iterations: 5
+  no_outer_iterations: 4
+  optimization_activate: True
+  optimization_verbose: False
+  
+  # Pesos para priorizar comportamentos
+  weight_max_vel_x: 2
+  weight_max_vel_theta: 1
+  weight_acc_lim_x: 1
+  weight_acc_lim_theta: 1
+  weight_kinematics_nh: 1000 # Muito alto para robôs diferenciais
+  weight_kinematics_forward_drive: 10 #  tentar sempre ir para frente
+  weight_obstacle: 50
+  weight_dynamic_obstacle: 50 # Peso para desviar dos obstáculos móveis
+  weight_viapoint_graph: 1
