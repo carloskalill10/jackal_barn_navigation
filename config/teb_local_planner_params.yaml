@@ -9,11 +9,11 @@ TebLocalPlannerROS:
   map_frame: /odom # Ou /map se estiver a usar SLAM
 
   # --- Cinemática do Robô (Jackal) ---
-  max_vel_x: 1.        # Velocidade máxima linear (m/s)
-  max_vel_x_backwards: 0.4
+  max_vel_x: 1      # Velocidade máxima linear (m/s)
+  max_vel_x_backwards: 0.5
   max_vel_theta: 1.0    # Velocidade máxima angular (rad/s)
   acc_lim_x: 1.0
-  acc_lim_theta: 0.5
+  acc_lim_theta: 1
   
   # Importante: O Jackal é "diff-drive" (diferencial)
   min_turning_radius: 0.0 
@@ -28,17 +28,17 @@ TebLocalPlannerROS:
   free_goal_vel: False
 
   # --- Configuração de Obstáculos ---
-  min_obstacle_dist: 0.4 # Distância de segurança
+  min_obstacle_dist: 0.2 # Distância de segurança
   include_costmap_obstacles: True
   costmap_obstacles_behind_robot_dist: 1.0
   obstacle_poses_affected: 30
-  inflation_dist: 0.4
+  inflation_dist: 0.3
 
   # --- OBSTÁCULOS DINÂMICOS (Integração com o seu Python) ---
   include_dynamic_obstacles: True
   #  Script Python publica as ObstacleArrayMsg
   obstacles_topic: "/dynamic_obstacles_teb" 
-  dynamic_obstacle_inflation_dist: 0.6
+  dynamic_obstacle_inflation_dist: 0.3
 
   # --- Planeamento de Trajetória ---
   dt_ref: 0.3 # Resolução temporal da trajetória (segundos)
@@ -61,7 +61,7 @@ TebLocalPlannerROS:
   weight_acc_lim_x: 1
   weight_acc_lim_theta: 1
   weight_kinematics_nh: 1000 # Muito alto para robôs diferenciais
-  weight_kinematics_forward_drive: 10 #  tentar sempre ir para frente
-  weight_obstacle: 50
-  weight_dynamic_obstacle: 50 # Peso para desviar dos obstáculos móveis
+  weight_kinematics_forward_drive: 5 #  tentar sempre ir para frente
+  weight_obstacle: 250
+  weight_dynamic_obstacle: 500 # Peso para desviar dos obstáculos móveis
   weight_viapoint_graph: 1
